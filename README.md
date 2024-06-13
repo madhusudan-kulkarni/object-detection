@@ -39,3 +39,7 @@ npm run dev
 - Detect objects in real-time using the webcam
 - Play a sound when a predefined object is detected
 - Display the detected object and its confidence level
+
+## Demo
+
+You can find a live demo [here](https://object-detection-sus.vercel.app/)
