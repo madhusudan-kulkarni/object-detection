@@ -30,4 +30,12 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  .gradient {
+    @apply bg-gradient-to-tl from-white via-orange-400 to-pink-400;
+  }
+
+  .gradient-title {
+    @apply gradient text-transparent bg-clip-text;
+  }
 }
