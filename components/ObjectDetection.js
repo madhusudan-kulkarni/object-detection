@@ -1,10 +1,25 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
+import { load as cocoSSDLoad } from "@tensorflow-models/coco-ssd";
+import * as tf from "@tensorflow/tfjs";
+
+let detectInterval;
 
 const ObjectDetection = () => {
   const webcamRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const runCoco = async () => {
+    setIsLoading(true);
+    const net = await cocoSSDLoad();
+    setIsLoading(false);
+
+    detectInterval = setInterval(() => {
+      // runObjectDetection(net);
+    }, 10);
+  };
 
   const showWebcam = () => {
     if (
@@ -20,18 +35,23 @@ const ObjectDetection = () => {
   };
 
   useEffect(() => {
+    runCoco();
     showWebcam();
   }, []);
 
   return (
     <div className="flex items-center justify-center w-full h-full">
-      <div className="relative w-full h-full max-h-full overflow-hidden rounded-lg shadow-lg">
-        <Webcam
-          className="object-cover w-full h-full rounded-lg"
-          muted
-          mirrored
-        />
-      </div>
+      {isLoading ? (
+        <div className="gradient-title">Loading AI Model</div>
+      ) : (
+        <div className="relative w-full h-full max-h-full overflow-hidden rounded-lg shadow-lg">
+          <Webcam
+            className="object-cover w-full h-full rounded-lg"
+            muted
+            mirrored
+          />
+        </div>
+      )}
     </div>
   );
 };
