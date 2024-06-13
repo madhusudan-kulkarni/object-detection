@@ -1,3 +1,5 @@
+import { throttle } from "lodash";
+
 export const renderPredictions = (predictions, context) => {
   // Clear canvas
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
@@ -10,8 +12,13 @@ export const renderPredictions = (predictions, context) => {
   // Mirror the canvas
   context.scale(-1, 1);
 
+  let isAudioPlaying = false; // Flag to track if audio is already playing
+
   predictions.forEach((prediction) => {
     const [x, y, width, height] = prediction.bbox;
+
+    // check if the prediction is a person
+    const isPerson = prediction.class === "cell phone";
 
     // Adjust the bounding box size to make it slightly smaller
     const padding = 2;
@@ -71,8 +78,20 @@ export const renderPredictions = (predictions, context) => {
       -adjustedX - adjustedWidth + labelPadding,
       adjustedY - 25
     );
+
+    if (isPerson && !isAudioPlaying) {
+      playAudio();
+      isAudioPlaying = true;
+    } else if (!isPerson) {
+      isAudioPlaying = false;
+    }
   });
 
   // Reset transformation matrix to default after drawing all predictions
   context.setTransform(1, 0, 0, 1, 0, 0);
 };
+
+const playAudio = throttle(() => {
+  const audio = new Audio("/alert.mp3");
+  audio.play();
+}, 3000);
