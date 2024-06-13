@@ -1,13 +1,36 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import Webcam from "react-webcam";
 
 const ObjectDetection = () => {
+  const webcamRef = useRef(null);
+
+  const showWebcam = () => {
+    if (
+      webcamRef.current !== null &&
+      webcamRef.current.video?.readyState === 4
+    ) {
+      const myVideoWidth = webcamRef.current.video.videoWidth;
+      const myVideoHeight = webcamRef.current.video.videoHeight;
+
+      webcamRef.current.video.width = myVideoWidth;
+      webcamRef.current.video.height = myVideoHeight;
+    }
+  };
+
+  useEffect(() => {
+    showWebcam();
+  }, []);
+
   return (
-    <div className="mt-8">
-      <div className="flex relative justify-center items-center gradient p-1.5 rounded-md">
-        {/* webcam */}
-        {/* canvas */}
+    <div className="flex items-center justify-center w-full h-full">
+      <div className="relative w-full h-full max-h-full overflow-hidden rounded-lg shadow-lg">
+        <Webcam
+          className="object-cover w-full h-full rounded-lg"
+          muted
+          mirrored
+        />
       </div>
     </div>
   );

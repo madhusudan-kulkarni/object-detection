@@ -3,11 +3,13 @@ import React from "react";
 
 const Home = () => {
   return (
-    <main className="flex flex-col items-center min-h-screen px-8 py-2">
-      <h1 className="text-3xl font-extrabold tracking-tighter text-center md:text-6xl lg:text:8xl md:px-6 gradient-title">
+    <main className="flex flex-col items-center justify-between max-h-screen min-h-screen overflow-hidden">
+      <h1 className="mt-2 text-3xl font-extrabold tracking-tighter text-center md:text-4xl lg:text-5xl gradient-title">
         Object Detection
       </h1>
-      <ObjectDetection />
+      <div className="w-full max-w-4xl h-[calc(100vh-6rem)] mb-8 px-4">
+        <ObjectDetection />
+      </div>
     </main>
   );
 };
